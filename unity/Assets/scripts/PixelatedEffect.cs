@@ -47,37 +47,8 @@ public class PixelatedEffect : MonoBehaviour
 		PixelMat.SetColor("_Color_3", ColorLightest);
 	}
 
-	private void OnPostRender()
+	private void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
-		if (currentWidth != Screen.width || currentHeight != Screen.height)
-		{
-			RenderTexture.Resize(Screen.width, Screen.height, TextureFormat.RGB24, false);
-
-			currentWidth = Screen.width;
-			currentHeight = Screen.height;
-		}
-
-		RenderTexture.ReadPixels(new Rect(0, 0, currentWidth, currentHeight), 0, 0);
-		RenderTexture.Apply();
-
-		GL.PushMatrix();
-		{
-			PixelMat.SetPass(0);
-			GL.LoadOrtho();
-			GL.Begin(GL.QUADS);
-			{
-				GL.MultiTexCoord(0, new Vector3(0, 0, 0));
-				GL.Vertex3(0, 0, 0);
-				GL.MultiTexCoord(0, new Vector3(0, 1, 0));
-				GL.Vertex3(0, 1, 0);
-				GL.MultiTexCoord(0, new Vector3(1, 1, 0));
-				GL.Vertex3(1, 1, 0);
-				GL.MultiTexCoord(0, new Vector3(1, 0, 0));
-				GL.Vertex3(1, 0, 0);
-			}
-			GL.End();
-		}
-		GL.PopMatrix();
+		Graphics.Blit(source, destination, PixelMat);
 	}
-
 }
