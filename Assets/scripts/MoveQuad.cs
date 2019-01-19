@@ -12,6 +12,7 @@ public class MoveQuad : MonoBehaviour
 
 	void Update()
 	{
-		transform.position = initialPos + Vector3.right * Mathf.PingPong(Time.time, 0.5f);
+		float time = Time.time % 1.0f;
+		transform.position = initialPos + Vector3.right * Mathf.PingPong(time, 0.5f);
 	}
 }

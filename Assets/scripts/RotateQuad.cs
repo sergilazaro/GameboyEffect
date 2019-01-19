@@ -3,8 +3,18 @@ using System.Collections;
 
 public class RotateQuad : MonoBehaviour
 {
+	Quaternion initialRotation;
+
+	private void Awake()
+	{
+		initialRotation = transform.rotation;
+	}
+
 	void Update()
 	{
-		transform.rotation *= Quaternion.AngleAxis(80 * Time.deltaTime, Vector3.forward);
+		float time = Time.time % 1.0f;
+		float angle = 180 * time;
+
+		transform.rotation = initialRotation * Quaternion.AngleAxis(angle, Vector3.forward);
 	}
 }
